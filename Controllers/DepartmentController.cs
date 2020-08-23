@@ -57,5 +57,58 @@ namespace WebAPI.Controllers
                 return "Failed to Add";
             }
         }
+
+        public string Put(Departments dep)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string query=@"update dbo.Departments set DepartmentName='"+dep.DepartmentName+
+                    @"'where DepartmentID="+dep.DepartmentID+@"";
+
+                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString);
+
+                var command = new SqlCommand(query, con);
+
+                using(var da=new SqlDataAdapter(command))
+                {
+                    command.CommandType = CommandType.Text;
+                    da.Fill(dt);
+                }
+                return "Update Successfully";
+            }
+            catch (Exception)
+            {
+
+                return "Failed to Update";
+            }
+        }
+
+        public string Delete(Departments dep)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string query = @"delete dbo.Departments where DepartmentID='" + dep.DepartmentID+@"'";
+
+                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EmployeeAppDB"].ConnectionString);
+
+                var command = new SqlCommand(query, con);
+
+                using(var da=new SqlDataAdapter(command))
+                {
+                    command.CommandType = CommandType.Text;
+                    da.Fill(dt);
+                }
+
+                return "Deleted Succesfully";
+            }
+            catch (Exception)
+            {
+                return "Failed to Delete";
+            }
+        }
     }
 }
